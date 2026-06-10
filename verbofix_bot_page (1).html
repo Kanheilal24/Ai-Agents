@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VerboFix — Your English Glow-Up Bot</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #fde8f5 0%, #e8f0fe 45%, #d4f5ee 100%);
+  }
+
+  .blob1 {
+    position: fixed; top: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #f9c8ec 0%, transparent 70%);
+    border-radius: 50%; z-index: 0; pointer-events: none;
+  }
+  .blob2 {
+    position: fixed; bottom: -120px; right: -100px;
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, #c3d8fc 0%, transparent 70%);
+    border-radius: 50%; z-index: 0; pointer-events: none;
+  }
+  .blob3 {
+    position: fixed; top: 40%; left: 55%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, #b8f0e2 0%, transparent 70%);
+    border-radius: 50%; z-index: 0; pointer-events: none;
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 24px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(200,160,230,0.4);
+    backdrop-filter: blur(8px);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 13px;
+    color: #7c3aed;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #1e1b4b;
+    line-height: 1.15;
+    text-align: center;
+  }
+  h1 span.pink { color: #d946a8; }
+  h1 span.blue { color: #4f83f7; }
+
+  .subtitle {
+    font-size: 15px;
+    color: #4b5563;
+    text-align: center;
+    max-width: 440px;
+    line-height: 1.7;
+  }
+
+  .tags {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tag {
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    backdrop-filter: blur(6px);
+  }
+  .tag.purple { border: 1px solid #c4b5fd; color: #6d28d9; background: #f5f0ff; }
+  .tag.green  { border: 1px solid #6ee7b7; color: #065f46; background: #f0fdf9; }
+  .tag.pink   { border: 1px solid #f9a8d4; color: #9d174d; background: #fdf2f8; }
+
+  .cards {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .card {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 20px;
+    padding: 18px 20px;
+    flex: 1 1 150px;
+    max-width: 190px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(100,80,200,0.07);
+  }
+  .card .icon { font-size: 26px; margin-bottom: 8px; }
+  .card h3 { font-size: 13px; font-weight: 700; color: #1e1b4b; margin-bottom: 5px; }
+  .card p  { font-size: 12px; color: #6b7280; line-height: 1.5; }
+
+  .cta-btn {
+    background: linear-gradient(135deg, #d946a8, #6366f1);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 36px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(99,102,241,0.35);
+    letter-spacing: 0.3px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(99,102,241,0.45); }
+  .cta-btn:active { transform: scale(0.97); }
+
+  .pulse-hint {
+    font-size: 12.5px;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: -16px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.4; transform:scale(0.8); }
+  }
+
+  .footer-note {
+    font-size: 11px;
+    color: #c4b5d1;
+    position: fixed;
+    bottom: 16px;
+  }
+
+  /* Hide the default Botpress floating bubble */
+  [class*="bpFab"],
+  [class*="bpw-floating-button"],
+  #bp-web-widget-container > button,
+  .bpw-floating-button-container {
+    display: none !important;
+    pointer-events: none !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="blob1"></div>
+<div class="blob2"></div>
+<div class="blob3"></div>
+
+<div class="page">
+  <div class="badge">✦ Your Personal English Upgrade</div>
+
+  <h1>Fix your <span class="pink">English</span>,<br>level up your <span class="blue">vibe</span> ✨</h1>
+
+  <p class="subtitle">Drop your message — get it back polished, professional, or full-on Gen Z energy. Your words, but better.</p>
+
+  <div class="tags">
+    <span class="tag purple">💼 Corporate Pro Mode</span>
+    <span class="tag pink">🔥 Gen Z Rizz Mode</span>
+    <span class="tag green">✅ Grammar Fix</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🪄</div>
+      <h3>Instant Rewrite</h3>
+      <p>Paste any sentence and watch it transform in seconds.</p>
+    </div>
+    <div class="card">
+      <div class="icon">👔</div>
+      <h3>Corporate Tone</h3>
+      <p>Sound sharp, polished and boardroom-ready every time.</p>
+    </div>
+    <div class="card">
+      <div class="icon">💅</div>
+      <h3>Gen Z Energy</h3>
+      <p>No cap, fr fr — your texts will hit different after this.</p>
+    </div>
+  </div>
+
+  <button class="cta-btn" id="openBotBtn">✨ Chat with the Bot</button>
+
+  <div class="pulse-hint">
+    <span class="dot"></span> Bot is live and ready
+  </div>
+</div>
+
+<div class="footer-note">made with 💜 for better communication</div>
+
+<!-- Botpress Scripts -->
+<script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2026/06/10/06/20260610063802-16E2C5YX.js" defer></script>
+
+<script>
+  document.getElementById('openBotBtn').addEventListener('click', function () {
+    // Try all known Botpress v3 open methods
+    if (window.botpress && typeof window.botpress.open === 'function') {
+      window.botpress.open();
+    } else if (window.BotpressWebChat && typeof window.BotpressWebChat.sendEvent === 'function') {
+      window.BotpressWebChat.sendEvent({ type: 'show' });
+    } else if (window.botpressWebChat && typeof window.botpressWebChat.sendEvent === 'function') {
+      window.botpressWebChat.sendEvent({ type: 'show' });
+    } else {
+      // Fallback: directly click the hidden Botpress bubble if it exists
+      var bubble =
+        document.querySelector('[class*="bpFab"]') ||
+        document.querySelector('[class*="bpw-floating-button"]') ||
+        document.querySelector('#bp-web-widget-container button') ||
+        document.querySelector('.bpw-floating-button-container button');
+      if (bubble) {
+        bubble.style.display = '';
+        bubble.click();
+        bubble.style.display = 'none';
+      }
+    }
+  });
+</script>
+</body>
+</html>
